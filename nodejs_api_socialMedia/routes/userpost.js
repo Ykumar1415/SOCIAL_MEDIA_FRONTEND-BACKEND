@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Userpost = require("../models/userposts");
 const User = require("../models/user");
 const Post = require("../models/userposts");
+const { json } = require("express");
 const cloudinary = require("cloudinary").v2;
 // cloudinary.config({
 //   cloud_name: "da82eybwn",
@@ -99,18 +100,29 @@ router.put("/like/:id", async (req, res) => {
 });
 router.get("/myallPosts", async (req, res) => {
   // const post = await Post.find({}, (err, data) => {
-   let x = "";
+  let x = "";
   const posts = await Post.find();
   if (posts) {
-   
-    const data = posts.map(async (post) => {
-      let usr = await User.findById(post.userId);
-      x = usr.name;
-      console.log(x);
-      return {
-        userName:  x
-      }
-    });
+    // const data = posts.map(async (post) => {
+    //   let usr = await User.findById(post.userId);
+    //   x = usr.name;
+    //   console.log(x);
+    //   return {
+    //     userName:  x
+    //   }
+    // });
+    let data = [];
+    for (let i = 0; i < posts.length; i++) {
+      const x = await User.findById(posts[i].userId);
+      console.log(x.name);
+
+      data.push({
+        username: x.name, 
+        img: posts[i].img, 
+        likes: posts[i].likes, 
+        desc : posts[i].desc
+      });
+    }
     res.json(data);
   }
 });
