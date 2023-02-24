@@ -22,7 +22,7 @@ import { flexbox } from "@mui/system";
   import Sidebarcard from "./sidebarcard"
   const Sidebar = ({mode,setMode}) => {
     return (
-      <Box  display  = "fixed" flexGrow={1} flexShrink = {4} p={2} sx={{ display: { xs: "none", sm: "block" }, boxShadow: "1" }}>
+      <Box  display  = "fixed" flexGrow={1} flexShrink = {4} p={2} sx={{ display: { xs: "none", sm: "block" }, boxShadow: "1", height : '100vh' }}>
         <Box position="fixed">
         <List>
             <ListItem disablePadding>

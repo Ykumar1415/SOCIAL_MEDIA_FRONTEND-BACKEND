@@ -117,10 +117,14 @@ router.get("/myallPosts", async (req, res) => {
       console.log(x.name);
 
       data.push({
+        id: posts[i]._id,
+        userImg : x.profilePicture,
         username: x.name, 
         img: posts[i].img, 
-        likes: posts[i].likes, 
-        desc : posts[i].desc
+        likes: posts[i].likes.length, 
+        desc: posts[i].desc,
+        isLiked: (posts[i].likes.indexOf(posts[i].userId)) ? 1 : 0, 
+        date: posts[i].createdAt
       });
     }
     res.json(data);

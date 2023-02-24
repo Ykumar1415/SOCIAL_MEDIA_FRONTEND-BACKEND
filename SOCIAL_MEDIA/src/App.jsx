@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState, useEffect } from "react";
 import Navbar from "./components/navbar";
 import Stack from "@mui/material/Stack";
@@ -17,33 +18,55 @@ import { uiActions } from "./store/uiSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import SecureRoute from "./SecureRoute";
+import Box from "@mui/material/Box";
+
 import Notifications from "./components/notifications";
+// import { Box, createTheme, ThemeProvider } from "@mui/material";
+
 function App() {
   // localStorage.setItem("loginState", false);
   const [imagesdata, setImagesdata] = useState([]);
-  const [images, setImages] = useState([
-    { image: "https://i.pinimg.com/736x/38/b2/72/38b2725d007f363d041cdd69bf490e49.jpg", id: 1 },
-    {image : "https://i.pinimg.com/originals/7a/b7/47/7ab74773f38918c1c14ee0bcbc2ad2d8.jpg", id : 2},
-    {image : "https://superstarsbio.com/wp-content/uploads/2019/11/Hande-Ercel.jpg", id : 3},
-    
-    {image : "https://media.vanityfair.com/photos/55423c5cdb753b82389ca5f0/3:2/w_900,h_600,c_limit/kristen-stewart-hollywood-sexism.jpg",id : 4}
-  ]);
+  const [images, setImages] = useState([]);
   useEffect(() => {
-    const allPosts =async () => {
-    const posts = await axios.get("http://localhost:3000/api/posts/myallPosts");
+    const allPosts = async () => {
+      const posts = await axios.get(
+        "http://localhost:3000/api/posts/myallPosts"
+      );
       console.log(posts.data);
-     const imgs =  posts.data.map((x) => {
-       return {image : x.img, id :x._id }; 
-     })
+      const imgs = posts.data.map((x) => {
+        return {
+          username: x.username,
+          image: x.img,
+          likes: x.likes,
+          id: x.id,
+          desc: x.desc,
+          isLiked: x.isLiked,
+          date: x.date,
+          userImg: x.userImg,
+        };
+      });
       console.log(imgs);
-      setImages([...images, ...imgs])
-  }
-  allPosts(); 
-  
-}, [])
+      setImages([...images, ...imgs]);
+    };
+    allPosts();
+  }, []);
+  const [theme, setTheme] = React.useState("light");
+  const [mode, setMode] = React.useState("light");
+  const themeHandle = () => {
+    if (theme === "light") {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  };
+  const darkTheme = createTheme({
+    palette: {
+      mode: mode,
+    },
+  });
 
   // const dispatch = useDispatch();
-// const loginState = useSelector((state) => state.ui.isLoggedin);
+  // const loginState = useSelector((state) => state.ui.isLoggedin);
   // useEffect(
   // () => {
   //   const getdata = async () => {
@@ -71,11 +94,15 @@ function App() {
   // }, []);
   const [showNotifications, setShowNotifications] = useState(false);
   return (
-   
+    <ThemeProvider theme={darkTheme}>
       <BrowserRouter>
-        <div className="App">
-        <Navbar showNotifications={showNotifications}  setShowNotifications={ setShowNotifications} />
-{showNotifications && <Notifications></Notifications>}
+      <Box bgcolor={"background.default"} color="text.primary">
+
+          <Navbar
+            showNotifications={showNotifications}
+            setShowNotifications={setShowNotifications}
+          />
+          {showNotifications && <Notifications></Notifications>}
           <Routes>
             <Route path="/login" element={<Login></Login>} />
             <Route path="/signup" element={<Signup />} />
@@ -94,10 +121,10 @@ function App() {
                 element={
                   <>
                     <SecureRoute>
-                    {/* //Home page */}
-                    <Sidebar></Sidebar>
-                    <Posts images={images} />
-                      <Rightbar ></Rightbar>
+                      {/* //Home page */}
+                      <Sidebar setMode={setMode} mode={mode} />
+                      <Posts images={images} />
+                      <Rightbar></Rightbar>
                     </SecureRoute>
                   </>
                 }
@@ -108,9 +135,9 @@ function App() {
                 element={
                   <>
                     <SecureRoute>
-                    <Sidebar></Sidebar>
-                    <AnotherUser></AnotherUser>
-                      <Rightbar ></Rightbar>
+                    <Sidebar setMode={setMode} mode={mode} />
+                      <AnotherUser></AnotherUser>
+                      <Rightbar></Rightbar>
                     </SecureRoute>
                   </>
                 }
@@ -119,9 +146,9 @@ function App() {
 
             {/* */}
           </Stack>
-        </div>
+          </Box>
       </BrowserRouter>
-  
+    </ThemeProvider>
   );
 }
 
