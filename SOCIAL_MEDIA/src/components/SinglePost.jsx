@@ -24,8 +24,10 @@ import TopUseractions from "./user/TopUseractions";
 import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import axios from "axios";
+import { useNavigate, Link } from 'react-router-dom';// For redirecting 
 function SinglePost(props) {
     const image = props.image
+    const navigate = useNavigate();
     const [likes, setLikes] = useState(image.likes); 
     const [isLiked, setIsLiked] = useState(image.isLiked);
     const matches = useMediaQuery("(max-width:850px)");
@@ -66,6 +68,7 @@ function SinglePost(props) {
       // }
       title={image.username}
       subheader={f.format(new Date(image.date))}
+      onClick = {()=>{ navigate(`/profile/${props.userId}`);}}
     />
     <CardMedia
       component="img"
@@ -83,11 +86,7 @@ function SinglePost(props) {
     </CardContent>
     <CardActions disableSpacing>
       <IconButton aria-label="add to favorites">
-        <Checkbox
-          icon={<ThumbUpOutlinedIcon sx={{}} />}
-          checkedIcon={<ThumbUpRoundedIcon sx={{ color: "blue" }} />}
-          name="checkedH"
-        />
+       
       </IconButton>
       <IconButton aria-label="add to favorites">
         <Checkbox
@@ -112,6 +111,7 @@ function SinglePost(props) {
           }}
         />
       </IconButton>
+      𝒯𝒽𝒾𝓈 𝒫𝑜𝓈𝓉 𝐻𝒶𝓈 𝐿𝒾𝓀𝑒𝓈 : {likes}
     </CardActions>
             </Card>
             </>

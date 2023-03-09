@@ -45,7 +45,7 @@ const f = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: 
       <Box flex={2} sx={{ boxShadow: "1" }}>
         <TopUseractions width={0} />
         {props.images.map((image) => (
-          <SinglePost image = {image} />
+          <SinglePost image = {image} key = {image._id} userId = {image.userId}/>
         ))}{" "}
       </Box>
     </>

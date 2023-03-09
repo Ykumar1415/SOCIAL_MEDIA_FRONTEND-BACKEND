@@ -2,7 +2,7 @@ const user = require("../models/user");
 const User = require("../models/user");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
-
+const mongoose = require("mongoose");
 router.put("/update/:userid", async (req, res) => {
   try {
     if (req.body.userid === req.params.userid || req.body.isAdmin) {
@@ -51,7 +51,7 @@ router.put("/follow/:userid", async (req, res) => {
       if (!user.followers.includes(req.body.userId)) {
         await user.updateOne({ $push: { followers: req.body.userId } });
         await currentUser.updateOne({
-          $push: { followings: req.params.userid },
+          $push: { followinzgs: req.params.userid },
         });
         res.status(200).json("user has been followed");
       } else {
@@ -65,6 +65,7 @@ router.put("/follow/:userid", async (req, res) => {
   }
 });
 
+
 router.put("/unfollow/:userid", async (req, res) => {
   if (req.body.userId !== req.params.userid) {
     try {
@@ -72,7 +73,7 @@ router.put("/unfollow/:userid", async (req, res) => {
       const currentUser = await User.findById(req.body.userId);
       if (user.followers.includes(req.body.userId)) {
         user.followers = user.followers.filter((id) => id != req.body.userId);
-        currentUser.followings = currentUser.followings.filter(
+        currentUser.followinzgs = currentUser.followinzgs.filter(
           (id) => id != req.params.userid
         );
         await user.save();

@@ -16,13 +16,13 @@ import {useParams}  from "react-router-dom"
 import UserTopbar from "./userTopbar";
 function anotheruser() {
   const { userid } = useParams();
-  console.log(userid)
+  console.log("another user "+ userid)
   
   return (
     <>
           <Box flex={ 2} sx={{ display :"flex", flexDirection : "column" , gap : "3rem"}}>
-        <UserTopbar />
-        <UserPosts />
+        <UserTopbar userId = {userid}/>
+        <UserPosts userId = {userid}/>
       </Box>
     </>
   );

@@ -21,8 +21,10 @@ import { useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { CloseOutlined } from "@mui/icons-material";
 import Notifications from "./notifications";
-function Navbar({showNotifications, setShowNotifications}) {
+import {useNavigate} from 'react-router-dom';
 
+function Navbar({showNotifications, setShowNotifications}) {
+const navigate = useNavigate();
   const dispatch = useDispatch();
   const showMenu = useSelector((state) => state.ui.ListVisible);
   const [menu, MenuShow] = useState(false);
@@ -66,7 +68,7 @@ function Navbar({showNotifications, setShowNotifications}) {
               console.log(showNotifications)}} />
             </Tooltip>
             <Tooltip title="chat">
-              <ChatIcon />
+              <ChatIcon onClick  = {()=>{navigate('/messanger')}}/>
             </Tooltip>
           </Typography>
           <Typography

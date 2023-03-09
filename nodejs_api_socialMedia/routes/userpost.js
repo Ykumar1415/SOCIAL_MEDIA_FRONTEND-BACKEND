@@ -35,7 +35,7 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 router.put("/create", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   // const file = req.body.photo; //input type file ka name = photo_post
   // cloudinary.uploader.upload(file.tempFilePath, async (err, result) => {
   // console.log(result);
@@ -74,7 +74,7 @@ router.get("/allPostWithUser", async (req, res) => {
     const currentUser = await User.findById(req.body.userId);
     const userPosts = await Post.find({ userId: currentUser._id });
     const friendPosts = await Promise.all(
-      currentUser.followings.map((friendId) => {
+      currentUser.followinzgs.map((friendId) => {
         return Post.find({ userId: friendId });
       })
     );
@@ -114,15 +114,17 @@ router.get("/myallPosts", async (req, res) => {
     let data = [];
     for (let i = 0; i < posts.length; i++) {
       const x = await User.findById(posts[i].userId);
-      console.log(x.name);
+      // console.log(x.name);
 
       data.push({
         id: posts[i]._id,
         userImg : x.profilePicture,
+        userId : posts[i].userId,
         username: x.name, 
         img: posts[i].img, 
         likes: posts[i].likes.length, 
         desc: posts[i].desc,
+        
         isLiked: (posts[i].likes.indexOf(posts[i].userId)) ? 1 : 0, 
         date: posts[i].createdAt
       });
@@ -134,10 +136,16 @@ router.get("/myallPosts", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const post = await Post.find({ userId: req.params.id });
+    
+
     res.status(200).json(post);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
+router.get('/postById/:id', async (req, res) => {
+  const posts = await Post.findById(req.params.id);
+  res.json(posts);
+  // console.log(posts)
+})
 module.exports = router;

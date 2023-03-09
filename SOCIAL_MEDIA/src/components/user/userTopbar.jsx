@@ -16,19 +16,21 @@ import {
 import TopUseractions from "./TopUseractions";
 import { useEffect } from "react";
 import axios from "axios";
-function UserTopbar() {
+function UserTopbar(props) {
   const [user, setuser] = useState({
     name: "Josephine Langford",
     followers: 100,
     followings: 200,
     profilepic : "https://i.pinimg.com/736x/38/b2/72/38b2725d007f363d041cdd69bf490e49.jpg"
   });
+  const [following , setfollowing ] = useState(false)
   useEffect(() => {
     const getinfo = async () => {
       const userx = await axios.get(
-        `http://localhost:3000/api/users/find/${localStorage.getItem("userID")}`
+        `http://localhost:3000/api/users/find/${props.userId}`
       );
       // console.log(userx);
+
       setuser({
         ...user,
         name: userx.data.name,
@@ -36,13 +38,28 @@ function UserTopbar() {
         followings: userx.data.followinzgs.length,
         profilepic : userx.data.profilePicture
       })
+      if(userx.data.followers.includes(localStorage.getItem("userID"))){
+        setfollowing(true)
+      }
     };
     getinfo();
   }, []);
   const followhandler = async () => {
-    await axios.put(`http://localhost:3000/api/users/follow/5${localStorage.getItem("userID")}`)
-  }
+  (!following)  ? (await axios.put(`http://localhost:3000/api/users/follow/${props.userId}`, {
+      userId: localStorage.getItem("userID"),
+    })
+    
+)
+: (await axios.put(`http://localhost:3000/api/users/unfollow/${props.userId}`, {
+  userId: localStorage.getItem("userID"),
+}) )
 
+if(!following)
+setuser({...user, followers : user.followers+1})
+else
+setuser({...user, followers : user.followers-1})
+setfollowing(!following)
+}
   return (
     <>
       <Box
@@ -99,11 +116,12 @@ function UserTopbar() {
             sx={{ height: "", marginTop: "2rem", marginLeft: "4rem" }}
             onClick={followhandler}
           >
-            Follow
+           { (!following) ? "Follow" : "Unfollow"}
           </Button>
         </List>
       </Box>
-      <TopUseractions width={1} />
+
+  {  (props.userId == localStorage.getItem("userID"))&&  <TopUseractions width={1} />}
     </>
   );
 }

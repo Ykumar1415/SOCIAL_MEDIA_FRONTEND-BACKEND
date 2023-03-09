@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { useState, useEffect } from "react";
 import Navbar from "./components/navbar";
 import Stack from "@mui/material/Stack";
@@ -19,8 +19,12 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import SecureRoute from "./SecureRoute";
 import Box from "@mui/material/Box";
-
+import Chat from "./components/chat/chat";
+import Rescent from "./components/chat/recentchat";
+import SearchFriend from "./components/chat/searchFriend";
 import Notifications from "./components/notifications";
+import Typography from "@mui/material/Typography";
+import Messanger from "./components/chat/messanger";
 // import { Box, createTheme, ThemeProvider } from "@mui/material";
 
 function App() {
@@ -37,6 +41,7 @@ function App() {
         return {
           username: x.username,
           image: x.img,
+          userId: x.userId,
           likes: x.likes,
           id: x.id,
           desc: x.desc,
@@ -96,8 +101,7 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <BrowserRouter>
-      <Box bgcolor={"background.default"} color="text.primary">
-
+        <Box bgcolor={"background.default"} color="text.primary">
           <Navbar
             showNotifications={showNotifications}
             setShowNotifications={setShowNotifications}
@@ -135,9 +139,19 @@ function App() {
                 element={
                   <>
                     <SecureRoute>
-                    <Sidebar setMode={setMode} mode={mode} />
+                      <Sidebar setMode={setMode} mode={mode} />
                       <AnotherUser></AnotherUser>
                       <Rightbar></Rightbar>
+                    </SecureRoute>
+                  </>
+                }
+              ></Route>
+              <Route
+                path="/messanger"
+                element={
+                  <>
+                    <SecureRoute>
+                      <Messanger />
                     </SecureRoute>
                   </>
                 }
@@ -146,7 +160,7 @@ function App() {
 
             {/* */}
           </Stack>
-          </Box>
+        </Box>
       </BrowserRouter>
     </ThemeProvider>
   );
