@@ -24,7 +24,17 @@ import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import SinglePost from './SinglePost'
 import axios from "axios";
+import { useState } from "react";
+import { Skeleton } from "@mui/material";
+import { Stack } from "@mui/material";
 export default function RecipeReviewCard(props) {
+
+  const [loading, setLoading] = useState(true);
+
+  setTimeout(() => {
+    setLoading(false);
+  }, [3000]);
+
   const matches = useMediaQuery("(max-width:850px)");
 const f = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
   let x = matches ? "row" : "column";
@@ -43,10 +53,18 @@ const f = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: 
     <>
       {" "}
       <Box flex={2} sx={{ boxShadow: "1" }}>
+      {loading ? (
+        <Stack spacing={1}>
+          <Skeleton variant="text" height={100} />
+          <Skeleton variant="text" height={20} />
+          <Skeleton variant="text" height={20} />
+          <Skeleton variant="rectangular" height={300} />
+        </Stack>
+      ) : <>
         <TopUseractions width={0} />
         {props.images.map((image) => (
           <SinglePost image = {image} key = {image._id} userId = {image.userId}/>
-        ))}{" "}
+        ))}{" "}</>}
       </Box>
     </>
   );

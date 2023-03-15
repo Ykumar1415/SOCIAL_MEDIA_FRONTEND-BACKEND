@@ -29,7 +29,7 @@ function TopUseractions(props) {
   const [selectedImage, setselectedImage] = useState("");
   const [desc, setdesc] = useState(''); 
   const [image, setImage] = useState("");
-
+const [loading, setLoading] = useState(false);
   useEffect(() => {
     const userImage = async () => {
       const userId = localStorage.getItem("userID");
@@ -43,6 +43,7 @@ function TopUseractions(props) {
     userImage();
   }, []);
   const postHandle = async () => {
+    setLoading(true);
     console.log("clicked");
     const formData = new FormData();
     formData.append("file", selectedImage);
@@ -57,9 +58,14 @@ function TopUseractions(props) {
           posturl: response.data.url,
         }); if (res) {
           console.log("success");
+          setLoading(false);
+          alert("Post Created");
+          window.location.reload();
+          setdesc('');
         } else console.log("failed");}
         catch (err) {
           console.log(err.message);
+          setLoading(false);
       }
        
       });
@@ -79,7 +85,7 @@ function TopUseractions(props) {
         display: "flex",
         boxShadow: "1",
         margin: "1rem",
-        marginLeft: { xs: "0", sm: "15%" },
+        marginLeft: { xs: "7%", sm: "15%" },
         borderRadius: "0.7rem",
       }}
     >
@@ -101,6 +107,7 @@ function TopUseractions(props) {
               paddingLeft: "10px",
               display: { xs: "none", sm: "block" },
             }}
+            value = {desc}
             onChange={(e) => setdesc(e.target.value)}
           />
 
@@ -110,7 +117,7 @@ function TopUseractions(props) {
             sx={{ marginLeft: "auto" }}
             onClick={postHandle}
           >
-            Post
+          {  (loading) ?'Posting' :'Post'}
           </Button>
         </ListItem>
         <Box sx={{ display: "flex" }}>
@@ -131,6 +138,7 @@ function TopUseractions(props) {
             type="file"
             id="file"
             style={{ display: "none", visibility: "none" }}
+            
             onChange={(e) => {
               setselectedImage(e.target.files[0]);
             }}

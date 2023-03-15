@@ -13,6 +13,7 @@ try{
    res.status(200).json(savedmsg)
 }
 catch(e){
+    res.json(e)
 console.log(e)
 }
 

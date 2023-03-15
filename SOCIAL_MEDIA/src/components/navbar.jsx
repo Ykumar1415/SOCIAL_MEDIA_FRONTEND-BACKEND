@@ -126,13 +126,7 @@ const navigate = useNavigate();
               }}
               sx={{ marginTop: "0.4rem" }}
             >
-              <MenuItem
-                onClick={() => {
-                  dispatch(uiActions.toggle());
-                }}
-              >
-                Profile
-              </MenuItem>
+            
               <MenuItem
                 onClick={() => {
                   

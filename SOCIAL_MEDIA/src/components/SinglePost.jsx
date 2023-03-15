@@ -93,7 +93,7 @@ function SinglePost(props) {
           icon={<FavoriteBorder />}
           checkedIcon={<Favorite sx={{ color: "red" }} />}
           name="checkedH"
-          checked = {!isLiked}
+          checked = {isLiked}
           onChange={async () => {
             const like = await axios.put(
               `http://localhost:3000/api/posts/like/${image.id}`,
@@ -105,13 +105,17 @@ function SinglePost(props) {
             if (like.status === 200) {
                 console.log(like);
                 setIsLiked(!isLiked);
+                if(!isLiked)
+                setLikes(likes +v1);
+                else
+                setLikes(likes - 1);
               // console.log(image.likes);
             }
             
           }}
         />
       </IconButton>
-      𝒯𝒽𝒾𝓈 𝒫𝑜𝓈𝓉 𝐻𝒶𝓈 𝐿𝒾𝓀𝑒𝓈 : {likes}
+      {/* 𝒯𝒽𝒾𝓈 𝒫𝑜𝓈𝓉 𝐻𝒶𝓈 𝐿𝒾𝓀𝑒𝓈 : {likes} */}
     </CardActions>
             </Card>
             </>

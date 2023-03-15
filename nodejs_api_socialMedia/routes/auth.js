@@ -41,6 +41,7 @@ router.post("/register", async (req, res, next) => {
           return console.log(error);
         }
         console.log("Message sent: " + info.response);
+        res.status(200).json(user._id);
       });
     } catch (err) {
       console.log(err);

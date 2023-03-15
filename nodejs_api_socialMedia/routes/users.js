@@ -3,6 +3,20 @@ const User = require("../models/user");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
+router.put("/update/profilepic/:userid", async (req, res) => {
+ try{
+const user = await User.findById(req.params.userid);
+if (user && req.body.userId == req.params.userid) {
+  user.profilePicture = req.body.imageurl;
+  await user.save();
+  res.send("profile pic updated");
+} else res.send("user not found");
+  }catch(e){
+    console.log(e);
+
+ 
+  }
+});
 router.put("/update/:userid", async (req, res) => {
   try {
     if (req.body.userid === req.params.userid || req.body.isAdmin) {
@@ -87,6 +101,30 @@ router.put("/unfollow/:userid", async (req, res) => {
     }
   } else {
     res.status(403).json("you cant unfollow yourself");
+  }
+});
+router.get('/friends/:userid', async (req, res) => {
+  try {
+    console.log(req.params.userid)
+    const x = await User.findById(req.params.userid);
+console.log(x)
+    let result = [];
+   let frnds = x.followers; 
+  frnds = [ ...frnds,...x.followinzgs];
+for(let i  = 0; i < frnds.length; i++){
+  const user = await User.findById(frnds[i]);
+  const { password, updatedAt, ...other } = user._doc;
+ let frind = other;
+  result.push({
+    name : frind.name,
+    id : frind._id,
+    profilePicture : frind.profilePicture
+  });
+  console.log(frind)
+}
+res.status(200).json(result);
+  } catch (e) {
+    res.status(500).json(e);
   }
 });
 

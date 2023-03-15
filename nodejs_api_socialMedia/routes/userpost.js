@@ -125,7 +125,7 @@ router.get("/myallPosts", async (req, res) => {
         likes: posts[i].likes.length, 
         desc: posts[i].desc,
         
-        isLiked: (posts[i].likes.indexOf(posts[i].userId)) ? 1 : 0, 
+        isLiked: (posts[i].likes.includes(posts[i].userId)) ? 1 : 0, 
         date: posts[i].createdAt
       });
     }

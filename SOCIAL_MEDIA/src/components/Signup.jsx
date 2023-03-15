@@ -6,7 +6,9 @@ import { useDispatch } from "react-redux";
 import { userActions } from "../store/currentuserSlice";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function Login() {
+  const navigate = useNavigate();
   let [user, setuser] = useState({
     username: "",
     password: "",
@@ -19,8 +21,9 @@ function Login() {
      user
       
     );
-    if (adduser) {
+    if (adduser.status === 200) {
       console.log("success");
+      navigate("/login");
     } else console.lgo("error in adding user");
   };
 

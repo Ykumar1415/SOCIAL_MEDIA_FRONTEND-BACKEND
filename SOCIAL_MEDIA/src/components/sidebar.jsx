@@ -20,13 +20,14 @@ import {
 import { flexbox } from "@mui/system";
   import React from "react";
   import Sidebarcard from "./sidebarcard"
+  import { useNavigate } from "react-router-dom";
   const Sidebar = ({mode,setMode}) => {
     return (
       <Box  display  = "fixed" flexGrow={1} flexShrink = {4} p={2} sx={{ display: { xs: "none", sm: "block" }, boxShadow: "1", height : '100vh' }}>
         <Box position="fixed">
         <List>
             <ListItem disablePadding>
-              <ListItemButton component="a" href="#home">
+              <ListItemButton component="a" href="/">
                 <ListItemIcon>
                   <Home />
                 </ListItemIcon>
@@ -65,16 +66,9 @@ import { flexbox } from "@mui/system";
                 <ListItemText primary="Friends" />
               </ListItemButton>
             </ListItem>
+           
             <ListItem disablePadding>
-              <ListItemButton component="a" href="#simple-list">
-                <ListItemIcon>
-                  <Settings />
-                </ListItemIcon>
-                <ListItemText primary="Settings" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton component="a" href="#simple-list">
+              <ListItemButton component="a" href={`/profile/${localStorage.getItem('userID')}`}>
                 <ListItemIcon>
                   <AccountBox />
                 </ListItemIcon>
@@ -82,7 +76,7 @@ import { flexbox } from "@mui/system";
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton component="a" href="#simple-list">
+              <ListItemButton component="a" >
                 <ListItemIcon>
                   <ModeNight />
                 </ListItemIcon>

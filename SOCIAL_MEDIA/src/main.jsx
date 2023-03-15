@@ -10,9 +10,9 @@ import Rescent from "./components/chat/recentchat";
 import SearchFriend from "./components/chat/searchFriend";
 import Typography from "@mui/material/Typography";
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+ 
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>
+  
 );
