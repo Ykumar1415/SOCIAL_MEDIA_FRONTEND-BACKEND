@@ -3,10 +3,8 @@
   "builds": [
     { "src": "*.js", "use": "@vercel/node" }
   ],
-  {
-  "routes": [
-  {"src": "/(.*)",
-  "dest":"/"
+  
+   "routes": [
+    { "src": "/api/(.*)", "dest": "nodejs_api_socialMedia/api/$1.js" }
   ]
-}
 }
