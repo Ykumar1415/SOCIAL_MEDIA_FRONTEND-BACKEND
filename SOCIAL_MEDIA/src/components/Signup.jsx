@@ -16,13 +16,18 @@ function Login() {
     ImageUrl: "",
   });
   const adduserHandler = async () => {
+    if (!user.email.includes("@")) {
+      alert("invalid email");
+      return;
+    }
+
     const adduser = await axios.post(
-      "http://localhost:3000/api/auth/register",
-     user
-      
+      "https://socialme-68rw.onrender.com/api/auth/register",
+      user
     );
     if (adduser.status === 200) {
       console.log("success");
+      alert("user added");
       navigate("/login");
     } else console.lgo("error in adding user");
   };
@@ -73,6 +78,7 @@ function Login() {
           name="Email"
           label="Email"
           value={user.email}
+          type = "email"
           onChange={(e) => {
             setuser({
               ...user,
@@ -96,6 +102,7 @@ function Login() {
           id="Password"
           name="Password"
           label="Password"
+          type="password"
           value={user.password}
           onChange={(e) => {
             setuser({
@@ -104,9 +111,10 @@ function Login() {
             });
           }}
         />
-        <TextField
+        {/* <TextField
           id="ConfirmPassword"
           name="ConfirmPassword"
+          type ="password"
           label="ConfirmPassword"
           // value={user.email}
           // onChange={(e) => {
@@ -115,8 +123,7 @@ function Login() {
           //     email: user.email,
           //   });
           // }}
-        />
-       
+        /> */}
       </Typography>
 
       <Button
@@ -128,7 +135,15 @@ function Login() {
         Signup
       </Button>
       <Typography variant="p" color="initial">
-        You have a account? <a href="/login">Sign In</a>
+        You have a account?{" "}
+        <span
+          style={{ color: "blue", cursor: "pointer" }}
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          Sign In
+        </span>
       </Typography>
       <Typography variant="p" color="initial">
         Copyright © Yogi{" "}
