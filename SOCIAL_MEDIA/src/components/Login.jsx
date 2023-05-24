@@ -12,39 +12,36 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   let [user, setuser] = useState({
     email: "",
-    password: ""
+    password: "",
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogin = async () => {
     try {
-      const usera = await axios.post("http://localhost:3000/api/auth/login", user);
+      const usera = await axios.post(
+        "https://socialme-68rw.onrender.com/api/auth/login",
+        user
+      );
       if (usera.status === 200) {
         localStorage.setItem("loginState", true);
-        const x = `${usera.data}`; 
+        const x = `${usera.data}`;
         localStorage.setItem("userID", `${x}`);
-        console.log(usera.data )
+        console.log(usera.data);
         console.log("success");
         dispatch(uiActions.userIDnew(usera.data._id));
         dispatch(uiActions.setlogin(true));
-        
-        navigate("/")
-        // console.log(usera);
-      }
- 
-      else {
-        console.log("error")
-        navigate("/login")
-      }
 
-    
-      
-    }
-    catch (e) {
+        navigate("/");
+        // console.log(usera);
+      } else {
+        console.log("error");
+        navigate("/login");
+      }
+    } catch (e) {
       console.log(e);
-      navigate("/login")
+      navigate("/login");
     }
-  }
+  };
   return (
     <Box
       sx={{
@@ -84,7 +81,12 @@ function Login() {
           name="email"
           label="email"
           value={user.email}
+          type = "email"
           onChange={(e) => {
+            if (!e.target.value.includes("@")) {
+              console.log("Please enter a valid email");
+            }
+
             setuser({
               ...user,
               email: e.target.value,
@@ -95,6 +97,7 @@ function Login() {
           id="Password"
           name="Password"
           label="Password"
+          type="password"
           value={user.password}
           onChange={(e) => {
             setuser({
@@ -113,7 +116,15 @@ function Login() {
         Login
       </Button>
       <Typography variant="p" color="initial">
-        Don't have an account? <a href="/signup">Signup</a>
+        Don't have an account?{" "}
+        <span
+          style={{ color: "blue", cursor: "pointer" }}
+          onClick={() => {
+            navigate("/signup");
+          }}
+        >
+          Signup
+        </span>
       </Typography>
       <Typography variant="p" color="initial">
         Copyright © Yogi{" "}
